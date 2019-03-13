@@ -38,15 +38,15 @@
           {{ developer.name }}
         </label>
 
-        <span *ngIf="game.flipped && name != developer.name">
+        <span *ngIf="game.flipped">
           {{ developer.points }}
         </span>
         <span *ngIf="developer.points && name != developer.name && !game.flipped"><i class="fa fa-check"></i></span>
         <span *ngIf="!developer.points && name != developer.name && !game.flipped"><i class="fa fa-question"></i></span>
         <span *ngIf="name == developer.name">
-          <span *ngIf="role == 'dev'">
+          <span *ngIf="role == 'dev'&& !game.flipped">
             <mat-form-field>
-              <input matInput placeholder="Points" type="number" size="1" [(ngModel)]="points" (keyup)="vote()" [disabled]="game.flipped" />
+              <input matInput placeholder="Points" type="number" size="1" [(ngModel)]="points" (keyup)="vote()" />
             </mat-form-field>
           </span>
         </span>
