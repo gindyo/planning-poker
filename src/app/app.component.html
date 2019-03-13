@@ -1,21 +1,51 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="">
+  <h1 *ngIf="haveJoined">{{ name }}</h1>
 
-<router-outlet></router-outlet>
+  <div>
+    <mat-form-field *ngIf="!haveJoined">
+      <input matInput placeholder="Your name" [(ngModel)]="name" />
+    </mat-form-field>
+    <div *ngIf="!haveJoined">
+      <mat-form-field>
+        <select [(ngModel)]="role" matNativeControl placeholder="Role" *ngIf="!haveJoined">
+          <option value="dev">Developer</option>
+          <option value="sm">Scrum Master</option>
+        </select>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button (click)="join()" *ngIf="name">
+          Join Current Game
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="name && haveJoined">
+  <mat-list *ngFor="let developer of game?.developers">
+    <mat-list-item>
+      <h3>
+        <label style="width: 100px; text-align: right; display: inline-block; margin-right: 20px">
+          {{ developer.name }}
+        </label>
+
+        <span *ngIf="game.flipped && name != developer.name">
+          {{ developer.points }}
+        </span>
+        <span *ngIf="developer.points && name != developer.name && !game.flipped"><i class="fa fa-check"></i></span>
+        <span *ngIf="!developer.points && name != developer.name && !game.flipped"><i class="fa fa-question"></i></span>
+        <span *ngIf="name == developer.name">
+          <span *ngIf="role == 'dev'">
+            <mat-form-field>
+              <input matInput placeholder="Points" type="number" size="1" [(ngModel)]="points" (keyup)="vote()" [disabled]="game.flipped" />
+            </mat-form-field>
+          </span>
+        </span>
+      </h3>
+
+    </mat-list-item>
+  </mat-list>
+  <div class="row" *ngIf="role == 'sm'">
+    <button mat-raised-button (click)="startNewGame()">Start new Game</button>
+    <button mat-raised-button (click)="flip()">Flip</button>
+  </div>
+</div>
