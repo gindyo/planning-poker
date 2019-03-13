@@ -25,6 +25,9 @@ export class AppComponent {
             .map(d => d.points)
             .reduce((p, c) => p + c) / this.game.developers.filter(d => d.points && d.points > 0).length;
           this.percentVoted = (this.game.developers.filter(d => d.points && d.points > 0).length / this.game.developers.length) * 100;
+          if (this.haveJoined) {
+            this.points = this.game.developers.find(d => d.name == this.name).points;
+          }
         }
       });
 
