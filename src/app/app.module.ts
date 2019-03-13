@@ -8,8 +8,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
-import { MatGridListModule } from "@angular/material/grid-list";
+import { MatButtonModule } from "@angular/material/button";;
 import { MatListModule } from "@angular/material/list";
 const config = {
   apiKey: "AIzaSyD1r9EGAT7n73Kf-qPXbIqFSZVWX9bqlMQ",

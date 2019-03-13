@@ -16,6 +16,7 @@ export class AppComponent {
   points: number;
   role = "dev";
   haveJoined: boolean;
+  average: number;
 
   constructor(private af: AngularFirestore) {
     af.collection("/games")
@@ -25,7 +26,9 @@ export class AppComponent {
         this.haveJoined =
           this.game.developers.some(d => this.name && d.name == this.name) ||
           this.game.scrumMasters.some(sm => this.name && sm.name == this.name);
-        console.log(this);
+        if (this.game.developers.length) {
+          this.average = this.game.developers.map(d => d.points).reduce((p, c) => p + c) / this.game.developers.filter(d => d.points && d.points > 0).length;
+        }
       });
 
     this.game1Ref = this.af.collection("/games").doc("/game1");
@@ -90,7 +93,7 @@ export class Game {
 }
 
 export class Player {
-  constructor(public name: string) {}
+  constructor(public name: string) { }
 }
 export class Developer extends Player {
   points: number;

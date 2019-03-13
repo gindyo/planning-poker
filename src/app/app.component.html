@@ -1,3 +1,7 @@
+<div class="pull-right" *ngIf="haveJoined">Average <button mat-fab>
+    <span *ngIf="game.flipped">{{average | number: "1.2-2"}}</span>
+    <span *ngIf="!game.flipped"><i class="fa fa-question"></i></span>
+  </button></div>
 <div class="">
   <h1 *ngIf="haveJoined">{{ name }}</h1>
 
