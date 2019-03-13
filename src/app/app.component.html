@@ -1,7 +1,13 @@
-<div class="pull-right" *ngIf="haveJoined">Average <button mat-fab>
+<div class="pull-right" *ngIf="haveJoined">Average
+
+  <button mat-fab>
+
     <span *ngIf="game.flipped">{{average | number: "1.2-2"}}</span>
     <span *ngIf="!game.flipped"><i class="fa fa-question"></i></span>
-  </button></div>
+  </button>
+
+
+</div>
 <div class="">
   <h1 *ngIf="haveJoined">{{ name }}</h1>
 
@@ -49,7 +55,9 @@
     </mat-list-item>
   </mat-list>
   <div class="row" *ngIf="role == 'sm'">
-    <button mat-raised-button (click)="startNewGame()">Start new Game</button>
-    <button mat-raised-button (click)="flip()">Flip</button>
+    <button mat-raised-button (click)="startNewGame()" class="pull-right">Start new Game</button>
+    <button style="width: 150px" mat-raised-button (click)="flip()">Flip
+      <mat-progress-bar mode="determinate" [value]="percentVoted" style="margin:3px"></mat-progress-bar>
+    </button>
   </div>
 </div>

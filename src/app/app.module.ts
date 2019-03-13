@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";;
 import { MatListModule } from "@angular/material/list";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 const config = {
   apiKey: "AIzaSyD1r9EGAT7n73Kf-qPXbIqFSZVWX9bqlMQ",
   authDomain: "planning-pocker-6b6a6.firebaseapp.com",
@@ -22,6 +23,7 @@ const config = {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    MatProgressBarModule,
     MatListModule,
     MatInputModule,
     MatButtonModule,
