@@ -11,6 +11,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  voted: boolean;
 
   constructor(private af: AngularFirestore) {
     af.collection('/games')
@@ -25,18 +26,17 @@ export class AppComponent {
             .map(d => d.points)
             .reduce((p, c) => p + c) / this.game.developers.filter(d => d.points && d.points > 0).length;
           this.percentVoted = (this.game.developers.filter(d => d.points && d.points > 0).length / this.game.developers.length) * 100;
-          if (this.haveJoined) {
-            this.points = this.game.developers.find(d => d.name == this.name).points;
-          }
+
+        }
+        if (this.game.flipped) {
+          this.points = null;
+          this.voted = false;
         }
       });
 
     this.game1Ref = this.af.collection('/games').doc('/game1');
     this.game1Ref.get().subscribe(g => (this.game = new Game(g.data())));
-    this.voter.pipe(debounceTime(1000)).subscribe(() => {
-      this.game.developers.find(d => d.name === this.name).points = this.points;
-      this.game1Ref.set(this.game.toObj());
-    });
+
   }
   gameName: string;
   name: string;
@@ -85,8 +85,15 @@ export class AppComponent {
     this.game1Ref.set(this.game.toObj());
   }
   vote() {
-    this.voter.next();
+    this.game.developers.find(d => d.name === this.name).points = this.points;
+    this.game1Ref.set(this.game.toObj());
+    this.voted = true;
 
+  }
+  onEnter(event) {
+    if (event.key == 'Enter') {
+      this.vote()
+    }
   }
 }
 

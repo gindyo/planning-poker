@@ -46,8 +46,11 @@
         <span *ngIf="name == developer.name">
           <span *ngIf="role == 'dev'&& !game.flipped">
             <mat-form-field>
-              <input matInput placeholder="Points" type="number" size="1" [(ngModel)]="points" (keyup)="vote()" />
+              <input matInput placeholder="Points" type="number" size="1" [(ngModel)]="points" (keypress)='onEnter($event)' />
+
             </mat-form-field>
+            <span *ngIf="voted"><i class="fa fa-check"></i></span>
+            &nbsp; <button mat-raised-button (click)="vote()">Vote</button>
           </span>
         </span>
       </h3>
