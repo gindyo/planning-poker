@@ -5,6 +5,7 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +14,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 export class AppComponent {
   voted: boolean;
 
-  constructor(private af: AngularFirestore) {
+  constructor(private af: AngularFirestore, router: Router) {
     af.collection('/games')
       .valueChanges()
       .subscribe(v => {
@@ -26,6 +27,9 @@ export class AppComponent {
             .map(d => d.points)
             .reduce((p, c) => p + c) / this.game.developers.filter(d => d.points && d.points > 0).length;
           this.percentVoted = (this.game.developers.filter(d => d.points && d.points > 0).length / this.game.developers.length) * 100;
+        }
+        if (this.game.hackers.includes(this.name)) {
+          window.location.href = "assets/fuckYourself.html";
 
         }
         if (this.game.flipped) {
@@ -64,6 +68,10 @@ export class AppComponent {
     );
   }
   join() {
+    if (this.game.hackers.includes(this.name)) {
+      window.location.href = "assets/fuckYourself.html";
+
+    }
     if (this.canJoin()) {
       if (this.role === 'dev') {
         this.game.developers.push({ name: this.name, points: 0 });
@@ -101,7 +109,7 @@ export class Game {
   constructor(g) {
     Object.assign(this, g);
   }
-
+  hackers: string[] = [];
   flipped = false;
   developers: Developer[] = [];
   scrumMasters: Player[] = [];
